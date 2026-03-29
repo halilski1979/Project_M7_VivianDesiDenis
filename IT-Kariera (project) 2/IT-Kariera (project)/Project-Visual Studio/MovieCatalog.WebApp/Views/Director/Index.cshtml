@@ -1,0 +1,101 @@
+﻿@model IEnumerable<MovieCatalog.Data.Models.Director>
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
+        <h2 class="text-primary fw-bold">🎬 Movie Catalog System</h2>
+
+        <div>
+            <a asp-action="Create" class="btn btn-success shadow-sm me-2">
+                <strong>+</strong> Add New Director
+            </a>
+
+            <a asp-action="AddMovie" class="btn btn-primary shadow-sm">
+                <strong>+</strong> Add Movie
+            </a>
+        </div>
+    </div>
+
+    @foreach (var d in Model)
+    {
+        <div class="card mb-4 border-0 shadow-sm">
+
+            @* --- HEADER --- *@
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center py-3">
+                <h4 class="mb-0">
+                    <span class="badge bg-light text-primary me-2">ID: @d.Id</span>
+                    @d.Name
+                    <small class="opacity-75" style="font-size: 0.7em;">(@d.Country)</small>
+                </h4>
+
+                <div class="btn-group shadow-sm">
+                    <a asp-action="AddMovie" asp-route-directorId="@d.Id" class="btn btn-sm btn-success text-white border-white">
+                        <strong>+</strong> Add Movie
+                    </a>
+
+                    <a asp-action="Delete" asp-route-id="@d.Id" class="btn btn-sm btn-danger"
+                       onclick="return confirm('Delete @d.Name and all movies?')">
+                        Delete
+                    </a>
+                </div>
+            </div>
+
+            @* --- MOVIES LIST --- *@
+            <div class="card-body bg-light bg-opacity-10">
+                <h6 class="text-muted fw-bold mb-3">Movies:</h6>
+
+                <div class="list-group list-group-flush rounded shadow-sm">
+                    @foreach (var m in d.Movies)
+                    {
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <i class="text-primary me-2">●</i>
+                                <span class="fw-bold">@m.Title</span>
+                                <span class="badge bg-info text-dark ms-2">Year: @m.Year</span>
+                                <small class="text-muted ms-3">#@m.Id</small>
+                            </div>
+
+                            <div class="btn-group">
+                                <a asp-controller="Movie" asp-action="Delete" asp-route-id="@m.Id"
+                                   class="btn btn-sm btn-outline-danger"
+                                   onclick="return confirm('Delete movie @m.Title?')">
+                                    Delete
+                                </a>
+                            </div>
+                        </div>
+                    }
+
+                    @if (!d.Movies.Any())
+                    {
+                        <div class="list-group-item text-center py-4 text-muted border-0 bg-transparent">
+                            <p class="mb-0">No movies for @d.Name.</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<style>
+    .card {
+        transition: transform 0.2s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-3px);
+    }
+
+    .btn-group .btn {
+        border-radius: 4px !important;
+        margin-left: 2px;
+    }
+
+    .list-group-item {
+        border-left: 4px solid transparent;
+    }
+
+    .list-group-item:hover {
+        border-left: 4px solid #0d6efd;
+        background-color: #f8f9fa;
+    }
+</style>

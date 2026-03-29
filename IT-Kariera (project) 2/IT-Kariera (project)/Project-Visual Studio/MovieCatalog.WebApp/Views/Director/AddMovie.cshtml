@@ -1,0 +1,35 @@
+﻿@model IEnumerable<MovieCatalog.Data.Models.Director>
+
+<div class="container mt-5">
+    <h2>Add New Movie</h2>
+    <hr />
+
+    <form asp-action="AddMovie" method="post" class="col-md-6">
+
+        <div class="mb-3">
+            <label class="form-label">Select Director</label>
+            <select name="directorId" class="form-select" required>
+                <option value="">-- Choose Director --</option>
+
+                @foreach (var d in Model)
+                {
+                    <option value="@d.Id">@d.Name</option>
+                }
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Movie Title</label>
+            <input name="title" class="form-control" required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Year</label>
+            <input name="year" type="number" class="form-control" value="2024" required />
+        </div>
+
+        <button type="submit" class="btn btn-success">Add Movie</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+
+    </form>
+</div>
